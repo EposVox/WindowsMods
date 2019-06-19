@@ -1,0 +1,1 @@
+xcopy /D /E /I /Q /-Y "E:\Pictures" "G:\Pictures"
