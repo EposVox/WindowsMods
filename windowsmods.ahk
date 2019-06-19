@@ -7,6 +7,11 @@
 SetTitleMatchMode RegEx
 return
 
+
+
+
+;begin windows mods
+
 ;"CTRLZ.ahk" - Disables the use of CTRL + Z in Windows Explorer. 
 ;"Undo" never works how you expect in Explorer, and it's been the cause of many files of mine to go missing. 
 ;This disables the keyboard shortcut. The Ribbon "Undo" buttons still work fine.
@@ -101,51 +106,51 @@ Ins::^v
 ;MSPaint document, set the size to something small, then close
 ;it and "Don't Save" - that way your default size is small
 ;enough to accommodate window screenshots without extra white space! Just a tip
-Pause:: 
+;Pause:: 
 ;;Send Alt-printscreen, [for full screen sendinput only {PrintScreen}]
-Sendinput {Alt down}{PrintScreen}{Alt up}
-IfWinExist Untitled - Paint
-{
-    WinActivate                                   
-}
-else
-{
-    ;;Run MSPaint
-    Run %windir%\System32\mspaint.exe
-    WinWait Untitled - Paint
-    WinActivate                                   
-}
-Sendinput ^v
-Sendinput {Ctrl down}{s down}{s up}{Ctrl up}
-WinWait Save As
-WinActivate
-deskpath = %A_Desktop%
-Sendinput %deskpath%{enter}
-Sleep 100
-ControlSetText,Edit1,,
-WinWaitClose Save As
-SendInput {LAlt Down}{F4 down}{F4 up}{LAlt Up}
-Sleep 100
-IfWinExist Paint
-{
-    Sendinput {Tab down}{Tab up}{Enter down}{enter up}
-    return
-}
-else
-{
-    ;;The image was saved and paint was closed
-    return
-}
+;Sendinput {Alt down}{PrintScreen}{Alt up}
+;IfWinExist Untitled - Paint
+;{
+;    WinActivate                                   
+;}
+;else
+;{
+;    ;;Run MSPaint
+;    Run %windir%\System32\mspaint.exe
+;    WinWait Untitled - Paint
+;    WinActivate                                   
+;}
+;Sendinput ^v
+;Sendinput {Ctrl down}{s down}{s up}{Ctrl up}
+;WinWait Save As
+;WinActivate
+;deskpath = %A_Desktop%
+;Sendinput %deskpath%{enter}
+;Sleep 100
+;ControlSetText,Edit1,,
+;WinWaitClose Save As
+;SendInput {LAlt Down}{F4 down}{F4 up}{LAlt Up}
+;Sleep 100
+;IfWinExist Paint
+;{
+;    Sendinput {Tab down}{Tab up}{Enter down}{enter up}
+;    return
+;}
+;else
+;{
+;    ;;The image was saved and paint was closed
+;    return
+;}
 
 
 ;replace capslock with search 
-CapsLock::
-{
- Send, ^c
- Sleep 50
- Run, http://www.google.com/search?q=%clipboard%
- Return
-}
+;CapsLock::
+;{
+; Send, ^c
+; Sleep 50
+; Run, http://www.google.com/search?q=%clipboard%
+; Return
+;}
 
 ;paste in cmd
 #IfWinActive ahk_class ConsoleWindowClass
@@ -153,4 +158,5 @@ CapsLock::
 SendInput {Raw}%clipboard%
 return
 #IfWinActive
+
 
