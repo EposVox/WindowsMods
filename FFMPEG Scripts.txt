@@ -1,0 +1,33 @@
+H265 Nvenc conversion 420
+ffmpeg -i "%~1" -c:v hevc_nvenc  -pix_fmt yuv420p -c:a aac -b:v 100000k -maxrate:v 200000k -b:a 320k "%~dnp1.mp4"
+
+VP9 Transcode
+ffmpeg -i "%~1" -c:v libvpx-vp9 -b:v 4000k -c:a libopus -b:a 320k "%~dnp1.webm"
+
+
+ProRes 60FPS Lock
+ffmpeg -i "%~1" -vf fps=60 -c:v prores -profile:v 3 -c:a pcm_s16le "%~dnp1.mov"
+
+ProRes 30FPS lock
+ffmpeg -i "%~1" -vf fps=30 -c:v prores -profile:v 3 -c:a pcm_s16le "%~dnp1.mov"
+
+Remux MKV/FLV to MP4
+ffmpeg -i "%~1" -map 0 -codec copy "%~dnp1.mp4"
+
+Convert to GIF
+ffmpeg -i "%~1" -vf "fps=30,palettegen" -y "%~dnp1-palette.png"
+ffmpeg -i "%~1" -i "%~dnp1-palette.png" -lavfi "fps=30 [x]; [x][1:v] paletteuse" -y "%~dnp1.gif"
+del "%~dnp1-palette.png"
+
+Extract Audio Tracks to separate wavs
+ffmpeg -i "%~1" -map 0:a:0 -c copy "%~dnp1-a1.wav" -map 0:a:1 -c copy "%~dnp1-a2.wav" -map 0:a:2 -c copy "%~dnp1-a3.wav" -map 0:a:3 -c copy "%~dnp1-a4.wav" -map 0:a:4 -c copy "%~dnp1-a5.wav" -map 0:a:5 -c copy "%~dnp1-a6.wav"
+
+Extract Audio tracks to MKA
+ffmpeg -i "%~1" -map 0:a -c copy "%~dnp1-a.mka"
+
+NVENC 6K CBR
+ffmpeg -i "%~1" -pix_fmt yuv420p -c:v h264_nvenc -preset medium -profile:v high -r 60 -g 120 -bf 2 -b:v 6000 -maxrate 6500 -bufsize 12000 -rc cbr_hq -rc_lookahead 8 -temporal-aq 1 -b_ref_mode 2 "%~dnp1.mp4"
+
+CRF14
+
+ffmpeg -i "%~1" -map 0 -c:v libx264 -crf 14 -c:a copy "%~dnp1_crf14.mp4"
