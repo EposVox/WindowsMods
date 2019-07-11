@@ -11,16 +11,16 @@ WinGetTitle, Title, ahk_class CabinetWClass
 	Run, E:\Documents\WindowsMods\MakeVideoDirectories.bat /E:ON "%Title%" /E:ON, "%Title%"
 return
 
-;compress files in directory w/ CRF14
+;compress files in directory w/ CRF14 (X264)
 +!r::
 WinGetTitle, Title, ahk_class CabinetWClass
 ;	msgbox,% Title
 	Run, E:\Documents\WindowsMods\crf14.bat /E:ON "%Title%" /E:ON, "%Title%"
 return
 
-;compress files in directory w/ CRF14 (HEVC)
+;compress files in directory w/ CRF24 (HEVC)
 +!f::
 WinGetTitle, Title, ahk_class CabinetWClass
 ;	msgbox,% Title
-	Run, E:\Documents\WindowsMods\crf14_hevc.bat /E:ON "%Title%" /E:ON, "%Title%"
+	Run, E:\Documents\WindowsMods\crf24_hevc.bat /E:ON "%Title%" /E:ON, "%Title%"
 return
