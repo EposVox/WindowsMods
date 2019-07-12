@@ -4,7 +4,7 @@ pushd "%2"
 SET paths=paths.txt
 ::paths lets you put a bunch of folder paths in a text file and run this across those, instead of individually. I use this to run overnight on a LOT of footage folders at once. Thanks to Aayla for a lot of these upgrades
 ::Fun tip - select your folders (15 max at a time) and shift+right-click and click "copy as paths"
-SET /A ffmpeg_qv=22
+SET /A ffmpeg_qv=24
 ::change CQP value here so you only have to type it once. 22 is lossless for HEVC.
 
 ::for /R %%A in (*.mp4, *.avi, *.mov, *.wmv, *.ts, *.m2ts, *.mkv, *.mts) do (
@@ -30,7 +30,7 @@ EXIT /B %ERRORLEVEL%
 :ffmpeg
     for /R %%A in (*.mp4, *.avi, *.mov, *.wmv, *.ts, *.m2ts, *.mkv, *.mts) do (
         echo Processing "%%A"
-        ffmpeg -hwaccel auto -i "%%A" -pix_fmt p010le -map 0:v -map 0:a -map_metadata 0 -c:v hevc_nvenc -rc constqp -qp %ffmpeg_qv% -b:v 0K -c:a aac -b:a 384k -movflags +faststart "%%A~dnpA_CRF%ffmpeg_qv%_HEVC.mp4"
+        ffmpeg -hwaccel auto -i "%%A" -pix_fmt p010le -map 0:v -map 0:a -map_metadata 0 -c:v hevc_nvenc -rc constqp -qp %ffmpeg_qv% -b:v 0K -c:a aac -b:a 384k -movflags +faststart -movflags use_metadata_tags "%%A~dnpA_CRF%ffmpeg_qv%_HEVC.mp4"
 		::"-pix_fmt p010le" is setting it to 10-bit instead of 420 8-bit, which is what I had before
 		:: "-map_metadata 0" copies all metadata from source file
 		:: "-movflags +faststart" helps with audio streaming
