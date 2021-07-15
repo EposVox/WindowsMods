@@ -1,4 +1,4 @@
-pushd "%2"
+pushd "%1"
 
 ::Default variables
 SET paths=paths.txt
@@ -9,7 +9,7 @@ SET /A ffmpeg_qv=24
 
 ::for /R %%A in (*.mp4, *.avi, *.mov, *.wmv, *.ts, *.m2ts, *.mkv, *.mts) do (
 ::    echo Processing %%A
-::    ffmpeg -hwaccel auto -i "%%A" -pix_fmt p010le -map 0:v -map 0:a -c:v hevc_nvenc -rc constqp -qp 21 -b:v 0K -c:a libfdk_aac -vbr 5 -movflags +faststart "%%A~dnpA_CRF%ffmpeg_qv%_HEVC.mp4"
+::    ffmpeg -hwaccel auto -i "%%A" -pix_fmt p010le -map 0:v -map 0:a -c:v hevc_nvenc -rc constqp -qp 21 -b:v 0K -c:a libfdk_aac -vbr 5 -movflags +faststart "%%~dpnA_CRF%ffmpeg_qv%_HEVC.mp4"
 ::    echo Processed %%A
 ::)
 ::pause
@@ -30,8 +30,8 @@ EXIT /B %ERRORLEVEL%
 :ffmpeg
     for /R %%A in (*.mp4, *.avi, *.mov, *.wmv, *.ts, *.m2ts, *.mkv, *.mts) do (
         echo Processing "%%A"
-        ffmpeg -hwaccel auto -i "%%A" -pix_fmt p010le -map 0:v -map 0:a -map_metadata 0 -c:v hevc_nvenc -rc constqp -qp %ffmpeg_qv% -b:v 0K -c:a aac -b:a 384k -movflags +faststart -movflags use_metadata_tags "%%A~dnpA_CRF%ffmpeg_qv%_HEVC.mp4"
-		::"-pix_fmt p010le" is setting it to 10-bit instead of 420 8-bit, which is what I had before
+        ffmpeg -hwaccel auto -i "%%A" -pix_fmt p010le -map 0:v -map 0:a -map_metadata 0 -c:v hevc_nvenc -rc constqp -qp %ffmpeg_qv% -b:v 0K -c:a aac -b:a 384k -movflags +faststart -movflags use_metadata_tags "%%~dpnA_CRF%ffmpeg_qv%_HEVC.mp4"
+		::"-pix_fmt p010le" is setting it to 10-bit instead of YUV 4:2:0 8-bit, which is what I had before
 		:: "-map_metadata 0" copies all metadata from source file
 		:: "-movflags +faststart" helps with audio streaming
         echo Processed %%A
