@@ -28,7 +28,7 @@ pause
 EXIT /B %ERRORLEVEL%
 ::Don't run the function when they're first defined because that's a thing Batch does for some reason???
 :ffmpeg
-    for /R %%A in (*.mp4, *.avi, *.mov, *.wmv, *.ts, *.m2ts, *.mkv, *.mts) do (
+    for /R %%A in (*.mp4, *.avi, *.mov, *.wmv, *.ts, *.m2ts, *.mkv, *.mts, *.m4v) do (
         echo Processing "%%A"
         ffmpeg -hwaccel auto -i "%%A" -pix_fmt p010le -map 0:v -map 0:a -map_metadata 0 -c:v hevc_nvenc -rc constqp -qp %ffmpeg_qv% -b:v 0K -c:a aac -b:a 384k -movflags +faststart -movflags use_metadata_tags "%%A~dnpA_CRF%ffmpeg_qv%_HEVC.mp4"
 		::"-pix_fmt p010le" is setting it to 10-bit instead of 420 8-bit, which is what I had before
